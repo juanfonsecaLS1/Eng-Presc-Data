@@ -1,0 +1,27 @@
+id,is_generic,name,type
+0301011R0AAAAAA,TRUE,Salbutamol 100micrograms/dose inhaler,product format
+0301011R0AAADAD,TRUE,Salbutamol 100micrograms/dose breath actuated inhaler,product format
+0301011R0AAAFAF,TRUE,Salbutamol 95micrograms/dose dry powder inhaler,product format
+0301011R0AAAPAP,TRUE,Salbutamol 100micrograms/dose inhaler CFC free,product format
+0301011R0AAAQAQ,TRUE,Salbutamol 200micrograms/dose dry powder inhaler,product format
+0301011R0AABUBU,TRUE,Salbutamol 100micrograms/dose breath actuated inh CFC free,product format
+0301011R0AABZBZ,TRUE,Salbutamol 100micrograms/dose dry powder inhaler,product format
+0301011R0AACBCB,TRUE,Salbutamol 100microg/dose dry pdr inhalation cart with dev,product format
+0301011R0AACCCC,TRUE,Salbutamol 100micrograms/dose dry pdr inhalation cartridge,product format
+0301011R0BEAHAQ,FALSE,Ventolin 200micrograms/dose Accuhaler,product format
+0301011R0BEAIAP,FALSE,Ventolin 100micrograms/dose Evohaler,product format
+0301011R0BIAFAP,FALSE,Salamol 100micrograms/dose inhaler CFC free (Teva),product format
+0301011R0BIAGBU,FALSE,Salamol 100micrograms/dose Easi-Breathe inhaler,product format
+0301011R0BIAHAP,FALSE,Salamol 100micrograms/dose inhaler CFC free (Arrow),product format
+0301011R0BKADAD,FALSE,Aerolin 100micrograms/dose Autohaler,product format
+0301011R0BLADAL,FALSE,Ventodisks 400microgram,product format
+0301011R0BMAAAP,FALSE,Airomir 100micrograms/dose inhaler,product format
+0301011R0BMABBU,FALSE,Airomir 100micrograms/dose Autohaler,product format
+0301011R0BTAAAQ,FALSE,Pulvinal Salbutamol 200micrograms/dose dry powder inhaler,product format
+0301011R0BWAABZ,FALSE,Easyhaler Salbutamol sulfate 100micrograms/dose dry pdr inh,product format
+0301011R0BWABAQ,FALSE,Easyhaler Salbutamol sulfate 200micrograms/dose dry pdr inh,product format
+0301011R0BXAACB,FALSE,Salbulin Novolizer 100micrograms/dose inhalation powder,product format
+0301011R0BXABCC,FALSE,Salbulin Novolizer 100micrograms/dose inhalation pdr refill,product format
+0301011R0BZAAAP,FALSE,AirSalb 100micrograms/dose inhaler CFC free,product format
+0301011V0AABBBB,TRUE,Terbutaline 500micrograms/dose dry powder inhaler,product format
+0301011V0BBARBB,FALSE,Bricanyl 500micrograms/dose Turbohaler,product format

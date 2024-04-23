@@ -1,0 +1,190 @@
+id,is_generic,name,type
+0301011ABAAAAAA,TRUE,Generic Trimbow NEXThaler 88microg/5microg/9microg/dose inh,product format
+0301011ABBBAAA0,FALSE,Trimbow 87microg/dose / 5microg/dose / 9microg/dose inh,product format
+0301011ABBBABAA,FALSE,Trimbow NEXThaler 88microg/5microg/9microg/dose dry pdr inh,product format
+0301011ABBBACAB,FALSE,Trimbow 172microg/dose / 5microg/dose / 9microg/dose inh,product format
+0302000C0AAAAAA,TRUE,Beclometasone 50micrograms/dose inhaler,product format
+0302000C0AAABAB,TRUE,Beclometasone 100micrograms/dose inhaler,product format
+0302000C0AAACAC,TRUE,Beclometasone 250micrograms/dose inhaler,product format
+0302000C0AAARAR,TRUE,Beclometasone 200micrograms/dose inhaler,product format
+0302000C0AAASAS,TRUE,Beclometasone 50micrograms/dose breath actuated inhaler,product format
+0302000C0AAATAT,TRUE,Beclometasone 100micrograms/dose breath actuated inhaler,product format
+0302000C0AABEBE,TRUE,Beclometasone 50micrograms/dose inhaler CFC free,product format
+0302000C0AABFBF,TRUE,Beclometasone 100micrograms/dose inhaler CFC free,product format
+0302000C0AABGBG,TRUE,Beclometasone 50micrograms/dose breath actuated inh CFC free,product format
+0302000C0AABHBH,TRUE,Beclometasone 100mcg/dose breath actuated inhaler CFC free,product format
+0302000C0AABJBJ,TRUE,Beclometasone 100micrograms/dose dry powder inhaler,product format
+0302000C0AABSBS,TRUE,Beclometasone 400micrograms/dose dry powder inhaler,product format
+0302000C0AABUBU,TRUE,Beclometasone 200micrograms/dose dry powder inhaler,product format
+0302000C0AABVBV,TRUE,Beclometasone 200micrograms/dose inhaler CFC free,product format
+0302000C0AABWBW,TRUE,Beclometasone 250micrograms/dose inhaler CFC free,product format
+0302000C0AABXBX,TRUE,Beclometasone 100microg/Formoterol 6microg/dose inh CFCfree,product format
+0302000C0AABYBY,TRUE,Beclometasone 100microg/Formoterol 6microg/dose dry pdr inh,product format
+0302000C0AABZBZ,TRUE,Beclometasone 200microg/Formoterol 6microg/dose inh CFC free,product format
+0302000C0AACACA,TRUE,Beclometasone 200microg/Formoterol 6microg/dose dry pdr inh,product format
+0302000C0BBAAAC,FALSE,Becloforte 250micrograms/dose inhaler,product format
+0302000C0BCAHAB,FALSE,Becotide 100 inhaler,product format
+0302000C0BCAIAA,FALSE,Becotide 50 inhaler,product format
+0302000C0BCAQAR,FALSE,Becotide 200 inhaler,product format
+0302000C0BEACAT,FALSE,AeroBec 100 Autohaler,product format
+0302000C0BFAAAA,FALSE,Beclazone 50 inhaler,product format
+0302000C0BFABAB,FALSE,Beclazone 100 inhaler,product format
+0302000C0BFACAC,FALSE,Beclazone 250 inhaler,product format
+0302000C0BFADAS,FALSE,Beclazone 50 Easi-Breathe inhaler,product format
+0302000C0BFAFAU,FALSE,Beclazone 250 Easi-Breathe inhaler,product format
+0302000C0BFAGAR,FALSE,Beclazone 200 inhaler,product format
+0302000C0BHADAK,FALSE,Becodisks 200microgram,product format
+0302000C0BHAEAJ,FALSE,Becodisks 400microgram with Diskhaler,product format
+0302000C0BHAFAQ,FALSE,Becodisks 400microgram,product format
+0302000C0BIAEBJ,FALSE,Asmabec 100 Clickhaler,product format
+0302000C0BJAABE,FALSE,Qvar 50 inhaler,product format
+0302000C0BJABBF,FALSE,Qvar 100 inhaler,product format
+0302000C0BJACBG,FALSE,Qvar 50 Autohaler,product format
+0302000C0BJADBH,FALSE,Qvar 100 Autohaler,product format
+0302000C0BJAEBG,FALSE,Qvar 50micrograms/dose Easi-Breathe inhaler,product format
+0302000C0BJAFBH,FALSE,Qvar 100micrograms/dose Easi-Breathe inhaler,product format
+0302000C0BLABBJ,FALSE,Pulvinal Beclometasone Diprop 100microg/dose dry pdr inh,product format
+0302000C0BNAABU,FALSE,Easyhaler Beclometasone 200micrograms/dose dry pdr inhaler,product format
+0302000C0BPAABE,FALSE,Clenil Modulite 50micrograms/dose inhaler,product format
+0302000C0BPABBF,FALSE,Clenil Modulite 100micrograms/dose inhaler,product format
+0302000C0BPACBV,FALSE,Clenil Modulite 200micrograms/dose inhaler,product format
+0302000C0BPADBW,FALSE,Clenil Modulite 250micrograms/dose inhaler,product format
+0302000C0BQAABX,FALSE,Fostair 100micrograms/dose / 6micrograms/dose inhaler,product format
+0302000C0BQABBZ,FALSE,Fostair 200micrograms/dose / 6micrograms/dose inhaler,product format
+0302000C0BRAABY,FALSE,Fostair NEXThaler 100microg/dose / 6microg/dose dry pdr inh,product format
+0302000C0BRABCA,FALSE,Fostair NEXThaler 200microg/dose / 6microg/dose dry pdr inh,product format
+0302000C0BSAABE,FALSE,Kelhale 50micrograms/dose inhaler,product format
+0302000C0BSABBF,FALSE,Kelhale 100micrograms/dose inhaler,product format
+0302000C0BTAABE,FALSE,Soprobec 50micrograms/dose inhaler,product format
+0302000C0BTABBV,FALSE,Soprobec 200micrograms/dose inhaler,product format
+0302000C0BTACBF,FALSE,Soprobec 100micrograms/dose inhaler,product format
+0302000C0BTADBW,FALSE,Soprobec 250micrograms/dose inhaler,product format
+0302000C0BUAABX,FALSE,Luforbec 100micrograms/dose / 6micrograms/dose inhaler,product format
+0302000C0BUABBZ,FALSE,Luforbec 200micrograms/dose / 6micrograms/dose inhaler,product format
+0302000C0BVAABF,FALSE,Beclu 100micrograms/dose inhaler,product format
+0302000C0BVABBV,FALSE,Beclu 200micrograms/dose inhaler,product format
+0302000C0BWAABX,FALSE,Bibecfo 100micrograms/dose / 6micrograms/dose inhaler,product format
+0302000C0BWABBZ,FALSE,Bibecfo 200micrograms/dose / 6micrograms/dose inhaler,product format
+0302000K0AAAAAA,TRUE,Budesonide 50micrograms/dose inhaler,product format
+0302000K0AAADAD,TRUE,Budesonide 200micrograms/dose inhaler,product format
+0302000K0AAAGAG,TRUE,Budesonide 200micrograms/dose dry powder inhaler,product format
+0302000K0AAAHAH,TRUE,Budesonide 400micrograms/dose dry powder inhaler,product format
+0302000K0AAAIAI,TRUE,Budesonide 1mg/2ml nebuliser liquid unit dose vials,product format
+0302000K0AAAJAJ,TRUE,Budesonide 500micrograms/2ml neb liq unit dose vials,product format
+0302000K0AAAKAK,TRUE,Budesonide 100micrograms/dose dry powder inhaler,product format
+0302000K0AAALAL,TRUE,Budesonide 100microg / Formoterol 6microg/dose dry pdr inh,product format
+0302000K0AAAMAM,TRUE,Budesonide 200mcg/dose / Formoterol 6mcg/dose dry powder inh,product format
+0302000K0AAAUAU,TRUE,Budesonide 400mcg/dose /Formoterol 12mcg/dose dry powder inh,product format
+0302000K0AAAVAV,TRUE,Budesonide 200microg/dose dry pdr inhalation cart with dev,product format
+0302000K0AAAWAW,TRUE,Budesonide 200micrograms/dose dry pdr inhalation cartridge,product format
+0302000K0AAAZAZ,TRUE,Budesonide 100micrograms/dose inhaler CFC free,product format
+0302000K0AABABA,TRUE,Budesonide 200micrograms/dose inhaler CFC free,product format
+0302000K0AABBBB,TRUE,Budesonide 200microg / Formoterol 6microg/dose inh CFC free,product format
+0302000K0AABCBC,TRUE,Budesonide 100microg / Formoterol 3microg/dose inh CFC free,product format
+0302000K0BBADAD,FALSE,Pulmicort 200micrograms/dose inhaler,product format
+0302000K0BBAGAI,FALSE,Pulmicort 1mg Respules,product format
+0302000K0BBAHAG,FALSE,Pulmicort 200 Turbohaler,product format
+0302000K0BBAIAH,FALSE,Pulmicort 400 Turbohaler,product format
+0302000K0BBAJAJ,FALSE,Pulmicort 0.5mg Respules,product format
+0302000K0BBAKAK,FALSE,Pulmicort 100 Turbohaler,product format
+0302000K0BBAMAZ,FALSE,Pulmicort 100micrograms/dose inhaler CFC free,product format
+0302000K0BBANBA,FALSE,Pulmicort 200micrograms/dose inhaler CFC free,product format
+0302000K0BDAAAL,FALSE,Symbicort 100/6 Turbohaler,product format
+0302000K0BDABAM,FALSE,Symbicort 200/6 Turbohaler,product format
+0302000K0BDACAU,FALSE,Symbicort 400/12 Turbohaler,product format
+0302000K0BDADBB,FALSE,Symbicort 200microg/dose / 6microg/dose pressurised inh,product format
+0302000K0BDAEBC,FALSE,Symbicort 100microg/dose / 3microg/dose pressurised inh,product format
+0302000K0BFAAAV,FALSE,Budelin Novolizer 200micrograms/dose inhalation powder,product format
+0302000K0BFABAW,FALSE,Budelin Novolizer 200micrograms/dose inhalation pdr refill,product format
+0302000K0BGAAAK,FALSE,Easyhaler Budesonide 100micrograms/dose dry powder inhaler,product format
+0302000K0BGABAG,FALSE,Easyhaler Budesonide 200micrograms/dose dry powder inhaler,product format
+0302000K0BGACAH,FALSE,Easyhaler Budesonide 400micrograms/dose dry powder inhaler,product format
+0302000K0BHAAAM,FALSE,DuoResp Spiromax 160microg/dose / 4.5microg/dose dry pdr inh,product format
+0302000K0BHABAU,FALSE,DuoResp Spiromax 320microg/dose / 9microg/dose dry pdr inh,product format
+0302000K0BIAAAU,FALSE,Fobumix Easyhaler 320microg/dose / 9microg/dose dry pdr inh,product format
+0302000K0BIABAM,FALSE,Fobumix Easyhaler 160microg / 4.5microg/dose dry pdr inh,product format
+0302000K0BIADAL,FALSE,Fobumix Easyhaler 80microg/dose / 4.5microg/dose dry pdr inh,product format
+0302000K0BJAAAM,FALSE,WockAIR 160micrograms/dose / 4.5micrograms/dose dry pdr inh,product format
+0302000K0BJABAU,FALSE,WockAIR 320micrograms/dose / 9micrograms/dose dry pdr inh,product format
+0302000K0BKAAAM,FALSE,GoResp Digihaler 160microg/dose / 4.5microg/dose dry pdr inh,product format
+0302000K0BKABAU,FALSE,GoResp Digihaler 320microg/dose / 9microg/dose dry pdr inh,product format
+0302000N0AAAEAE,TRUE,Fluticasone propionate 250mcg inhalation pdr blist + dev,product format
+0302000N0AAARAR,TRUE,Fluticasone propionate 50micrograms/dose dry powder inhaler,product format
+0302000N0AAASAS,TRUE,Fluticasone propionate 100micrograms/dose dry powder inhaler,product format
+0302000N0AAATAT,TRUE,Fluticasone propionate 250micrograms/dose dry powder inhaler,product format
+0302000N0AAAUAU,TRUE,Fluticasone propionate 500micrograms/dose dry powder inhaler,product format
+0302000N0AAAXAX,TRUE,Fluticasone propionate 100microg/Salmeterol 50microg/dose,product format
+0302000N0AAAYAY,TRUE,Fluticasone propionate 250microg/Salmeterol 50microg/dose,product format
+0302000N0AAAZAZ,TRUE,Fluticasone propionate 500microg/Salmeterol 50microg/dose,product format
+0302000N0AABABA,TRUE,Fluticasone 125micrograms/dose inhaler CFC free,product format
+0302000N0AABCBC,TRUE,Fluticasone 250micrograms/dose inhaler CFC free,product format
+0302000N0AABEBE,TRUE,Fluticasone 50microg / Salmeterol 25microg/dose inh CFC free,product format
+0302000N0AABFBF,TRUE,Fluticasone 125mcg/dose / Salmeterol 25mcg/dose inh CFC free,product format
+0302000N0AABGBG,TRUE,Fluticasone 250mcg/dose / Salmeterol 25mcg/dose inh CFC free,product format
+0302000N0AABHBH,TRUE,Fluticasone 50micrograms/dose inhaler CFC free,product format
+0302000N0AABJBJ,TRUE,Fluticasone 125microg / Formoterol 5microg/dose inh CFC free,product format
+0302000N0AABKBK,TRUE,Fluticasone 250microg / Formoterol 10microg/dose inh CFCfree,product format
+0302000N0AABLBL,TRUE,Fluticasone 50microg / Formoterol 5microg/dose inh CFC free,product format
+0302000N0AABPBP,TRUE,Fluticasone 125microg/Formoterol 5microg/dose BA inh CFCfree,product format
+0302000N0AABQBQ,TRUE,Fluticasone 50microg/Formoterol 5microg/dose BA inh CFC free,product format
+0302000N0AABRBR,TRUE,Fluticasone propionate 100microg/Salmeterol 12.75microg/dose,product format
+0302000N0AABSBS,TRUE,Fluticasone propionate 202microg/Salmeterol 12.75microg/dose,product format
+0302000N0BBARAR,FALSE,Flixotide 50micrograms/dose Accuhaler,product format
+0302000N0BBASAS,FALSE,Flixotide 100micrograms/dose Accuhaler,product format
+0302000N0BBATAT,FALSE,Flixotide 250micrograms/dose Accuhaler,product format
+0302000N0BBAUAU,FALSE,Flixotide 500micrograms/dose Accuhaler,product format
+0302000N0BBAYBA,FALSE,Flixotide 125micrograms/dose Evohaler,product format
+0302000N0BBBABC,FALSE,Flixotide 250micrograms/dose Evohaler,product format
+0302000N0BBBBBH,FALSE,Flixotide 50micrograms/dose Evohaler,product format
+0302000N0BCAAAX,FALSE,Seretide 100 Accuhaler,product format
+0302000N0BCABAY,FALSE,Seretide 250 Accuhaler,product format
+0302000N0BCACAZ,FALSE,Seretide 500 Accuhaler,product format
+0302000N0BCADBE,FALSE,Seretide 50 Evohaler,product format
+0302000N0BCAEBF,FALSE,Seretide 125 Evohaler,product format
+0302000N0BCAFBG,FALSE,Seretide 250 Evohaler,product format
+0302000N0BDAABJ,FALSE,Flutiform 125micrograms/dose / 5micrograms/dose inhaler,product format
+0302000N0BDABBK,FALSE,Flutiform 250micrograms/dose / 10micrograms/dose inhaler,product format
+0302000N0BDACBL,FALSE,Flutiform 50micrograms/dose / 5micrograms/dose inhaler,product format
+0302000N0BDADBP,FALSE,Flutiform K-haler 125microg/dose / 5microg/dose BA inhaler,product format
+0302000N0BDAEBQ,FALSE,Flutiform K-haler 50microg/dose / 5microg/dose BA inh,product format
+0302000N0BFAABF,FALSE,Sirdupla 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BFABBG,FALSE,Sirdupla 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BGAAAZ,FALSE,AirFluSal Forspiro 50microg / 500microg/dose dry pdr inh,product format
+0302000N0BGABBF,FALSE,AirFluSal 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BGACBG,FALSE,AirFluSal 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BHAAAZ,FALSE,Aerivio Spiromax 50microg / 500microg/dose dry pdr inh,product format
+0302000N0BIAABF,FALSE,Sereflo 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BIABBG,FALSE,Sereflo 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BIACAY,FALSE,Sereflo Ciphaler 50microg / 250microg/dose dry pdr inh,product format
+0302000N0BIADAZ,FALSE,Sereflo Ciphaler 50microg / 500microg/dose dry pdr inh,product format
+0302000N0BJAABF,FALSE,Aloflute 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BJABBG,FALSE,Aloflute 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BKAAAY,FALSE,Fusacomb Easyhaler 50microg / 250microg/dose dry pdr inh,product format
+0302000N0BKABAZ,FALSE,Fusacomb Easyhaler 50microg / 500microg/dose dry pdr inh,product format
+0302000N0BLAABE,FALSE,Combisal 25micrograms/dose / 50micrograms/dose inhaler,product format
+0302000N0BLABBF,FALSE,Combisal 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BLACBG,FALSE,Combisal 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BMAAAZ,FALSE,Stalpex 50microg/dose / 500microg/dose dry powder inh,product format
+0302000N0BNAAAZ,FALSE,Fixkoh Airmaster 50microg/dose / 500microg/dose dry pdr inh,product format
+0302000N0BNABAY,FALSE,Fixkoh Airmaster 50microg/dose / 250microg/dose dry pdr inh,product format
+0302000N0BNACAX,FALSE,Fixkoh Airmaster 50microg/dose / 100microg/dose dry pdr inh,product format
+0302000N0BPAABE,FALSE,Avenor 25micrograms/dose / 50micrograms/dose inhaler,product format
+0302000N0BPABBF,FALSE,Avenor 25micrograms/dose / 125micrograms/dose inhaler,product format
+0302000N0BPACBG,FALSE,Avenor 25micrograms/dose / 250micrograms/dose inhaler,product format
+0302000N0BQAABR,FALSE,Seffalair Spiromax 12.75microg / 100microg/dose dry pdr inh,product format
+0302000N0BQABBS,FALSE,Seffalair Spiromax 12.75microg / 202microg/dose dry pdr inh,product format
+0302000N0BRAAAX,FALSE,Campona Airmaster 50microg/dose / 100microg/dose dry pdr inh,product format
+0302000N0BRABAY,FALSE,Campona Airmaster 50microg/dose / 250microg/dose dry pdr inh,product format
+0302000N0BRACAZ,FALSE,Campona Airmaster 50microg/dose / 500microg/dose dry pdr inh,product format
+0302000R0AAAAAA,TRUE,Mometasone 200micrograms/dose dry powder inhaler,product format
+0302000R0AAACAC,TRUE,Mometasone 400micrograms/dose dry powder inhaler,product format
+0302000R0BBAAAA,FALSE,Asmanex 200micrograms/dose Twisthaler,product format
+0302000R0BBACAC,FALSE,Asmanex 400micrograms/dose Twisthaler,product format
+0302000U0AAAAAA,TRUE,Ciclesonide 80micrograms/dose inhaler CFC free,product format
+0302000U0AAABAB,TRUE,Ciclesonide 160micrograms/dose inhaler CFC free,product format
+0302000U0BBAAAA,FALSE,Alvesco 80 inhaler,product format
+0302000U0BBABAB,FALSE,Alvesco 160 inhaler,product format
+0302000V0AAAAAA,TRUE,Fluticasone furoate 184microg/Vilanterol 22microg/dose,product format
+0302000V0AAABAB,TRUE,Fluticasone furoate 92microg/Vilanterol 22microg/dose,product format
+0302000V0BBAAAA,FALSE,Relvar Ellipta 184microg/dose / 22microg/dose dry pdr inh,product format
+0302000V0BBABAB,FALSE,Relvar Ellipta 92microg/dose / 22microg/dose dry pdr inh,product format
