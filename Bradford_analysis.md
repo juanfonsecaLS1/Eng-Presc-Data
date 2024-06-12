@@ -145,7 +145,7 @@ icsdose <- read_csv(
 ### Exploring the data
 
 It is possible to extract the trends of both metrics. Below a graphical
-extract of one of the metrics for Leeds.
+extract of one of the metrics for Bradford.
 
 ``` r
 head(saba)
@@ -205,10 +205,17 @@ saba_processed <- saba |>
   )
 ```
 
+This creates a circular boinding area around Bradford to identify the
+relevant practices
+
+``` r
+bradford_zones <- zonebuilder::zb_zone("Bradford City",n_circles = 3)
+```
+
 Joining trends
 
 ``` r
-bradford_trends <- Bradford_Practices |>
+bradford_trends <- Bradford_Practices[bradford_zones,] |>
   left_join(
     saba_processed |>
       select(org_id,coef),
@@ -219,7 +226,6 @@ Mapping the trends
 
 ``` r
 base_osm <- tmaptools::read_osm(bradford_trends)
-
 
 tm_shape(base_osm)+
   tm_rgb()+
@@ -237,7 +243,7 @@ tm_shape(base_osm)+
 
     OpenStreetMapData read with read_osm is static, so not usable in view mode. Please use tm_basemap or tm_tiles, with the provider name set to "OpenStreetMap.Mapnik"
 
-![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-11-1.png)
+![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-12-1.png)
 
 A check of the distribution of the trends
 
@@ -253,7 +259,7 @@ saba_processed |>
   theme(legend.position = "none")
 ```
 
-![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-12-1.png)
+![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-13-1.png)
 
 ``` r
 saba_processed |> 
@@ -267,4 +273,4 @@ saba_processed |>
   theme(legend.position = "none")
 ```
 
-![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-13-1.png)
+![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-14-1.png)
