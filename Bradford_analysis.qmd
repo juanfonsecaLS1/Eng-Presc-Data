@@ -110,7 +110,7 @@ saba_processed <- saba |>
                         \(x) {
                           lm(calc_value ~ day, data = x)
                           }),
-         coef = map_dbl(lm.model,\(x){coef(x)[2]})
+         coef = 4*map_dbl(lm.model,\(x){coef(x)[2]})
   )
 
 ```
@@ -151,12 +151,12 @@ A check of the distribution of the trends
 ```{r}
 saba_processed |> 
   ggplot(aes(coef,fill = cut(coef,
-                             breaks = seq(-0.02,0.02,0.0005))))+
-  geom_histogram(breaks =  seq(-0.02,0.02,0.0005))+
+                             breaks = 4*seq(-0.02,0.02,0.0005))))+
+  geom_histogram(breaks =  4*seq(-0.02,0.02,0.0005))+
   theme_minimal()+
   scale_x_continuous(labels = scales::percent)+
   scale_fill_brewer(palette = "RdYlBu",direction = -1)+
-  labs(x = "coef (avg % change by week)")+
+  labs(x = "coef (avg % change per month)")+
   theme(legend.position = "none")
 ```
 
@@ -169,7 +169,7 @@ saba_processed |>
   geom_vline(xintercept = 0,alpha = 0.4,col ="red",linewidth = 1)+
   scale_x_continuous(labels = scales::percent)+
   scale_fill_brewer(palette = "RdYlBu",direction = -1)+
-  labs(x = "coef (avg % change by week)")+
+  labs(x = "coef (avg % change per month)")+
   theme(legend.position = "none")
 ```
 
