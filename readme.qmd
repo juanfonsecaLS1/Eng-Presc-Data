@@ -8,9 +8,12 @@ This work is based on data from [OpenPrescribing](https://openprescribing.net/).
 
 ## Obtaining boundaries
 
+Loading the libraries for this analysis
+
 ```{r}
 library(sf)
 library(tidyverse)
+library(tmap)
 ```
 
 ## Boundaries of all Sub-ICB Locations
@@ -18,7 +21,7 @@ library(tidyverse)
 Practices are grouped in sub-ICB. The following code extracts the boundaries for all ICBs in the country
 
 ```{r}
-CCG_boundaries <- geojsonsf::geojson_sf("https://openprescribing.net/api/1.0/org_location/?org_type=ccg")
+CCG_boundaries <- geojsonsf::geojson_sf("https://openprescribing.net/api/1.0/org_location/?org_type=ccg") 
 ```
 
 ```{r}
@@ -27,14 +30,34 @@ mapview::mapview(CCG_boundaries)
 
 ## GP surgeries
 
-Approximate locations of all registered GP surgeries can be obtained. For example, for Leeds (ICB code: `15F)`
+Approximate locations of all registered GP surgeries can also be extracted. For example, let's find the code for Leeds (ICB code: `15F` )
 
 ```{r}
-Leeds_Practices <- geojsonsf::geojson_sf("https://openprescribing.net/api/1.0/org_location/?q=15F")
+CCG_boundaries |>
+  st_drop_geometry() |>
+  filter(str_detect(name,"LEEDS"))
 ```
 
+Creating a variable for the code and assigning the code for Leeds
+
 ```{r}
-mapview::mapview(Leeds_Practices)
+ICB_code <- "15F" 
+```
+
+Extracting the data for the practices which is a geoJSON file.
+
+```{r}
+Practices <- geojsonsf::geojson_sf(paste0(
+  "https://openprescribing.net/api/1.0/org_location/?q=",
+  ICB_code
+  )) |> 
+  st_transform(27700)
+```
+
+Plotting the data
+
+```{r}
+mapview::mapview(Practices)
 ```
 
 ## Getting data of respiratory `tag` for Leeds
@@ -59,8 +82,14 @@ Taken from the web:
 >
 > ***Description:** Prescribing of short acting beta agonist (SABA) inhalers - salbutamol and terbutaline - compared with prescribing of inhaled corticosteroid inhalers and SABA inhalers*
 
+The following code reads the SABA data for the `ICB_code` we have already defined
+
 ```{r}
-saba <- read_csv("https://openprescribing.net/api/1.0/measure_by_practice/?format=csv&org=15F&parent_org_type=ccg&measure=saba")
+saba <- read_csv(paste0(
+  "https://openprescribing.net/api/1.0/measure_by_practice/?format=csv&org=",
+  ICB_code,
+  "&parent_org_type=ccg&measure=saba")
+  )
 ```
 
 ### High dose inhaled corticosteroids
@@ -75,13 +104,15 @@ Taken from the web:
 >
 > ***Description:** Prescribing of high dose inhaled corticosteroids compared with prescribing of all inhaled corticosteroids*
 
+The following code reads the ICS data for the `ICB_code` we have already defined
+
 ```{r}
 icsdose <- read_csv("https://openprescribing.net/api/1.0/measure_by_practice/?format=csv&org=15F&parent_org_type=ccg&measure=icsdose")
 ```
 
 ### Exploring the data
 
-It is possible to extract the trends of both metrics. Below a graphical extract of one of the metrics for Leeds.
+It is possible to extract the trends of both metrics. Below a graphical extract of one of the metrics for Leeds for a single GP practice.
 
 ```{r}
 head(saba)
@@ -101,3 +132,95 @@ saba |>
        subtitle = "Blue: LEEDS STUDENT MEDICAL PRACTICE"
   )
 ```
+
+#### Calculating an overall trend
+
+First let's check the data quality for all practices and remove the NAs.
+
+```{r}
+saba |>
+  drop_na() |>
+  summarise(n_reports = n(),
+            .by = org_id) |>
+  arrange(n_reports) 
+```
+
+We create a vector with the ids that have more than 10 records
+
+```{r}
+ids_to_include <- saba |>
+  drop_na() |>
+  summarise(n_reports = n(),
+            .by = org_id) |>
+  arrange(n_reports) |> 
+  filter(n_reports>10) |> 
+  pull(org_id)
+```
+
+##### Calculating the number of month
+
+Extracting the start month from the dataset
+
+```{r}
+start_month <- min(saba$date)
+```
+
+Defining a function to calculate the month number of the record
+
+```{r}
+diff_month <- function(start, end){
+  length(seq(from=start, to=end, by='month')) - 1
+}
+```
+
+Calculating the month difference
+
+```{r}
+saba$month <- vapply(saba$date,\(x){
+  diff_month(start_month,x)},numeric(1))
+```
+
+##### Extracting Built up areas
+
+We are interested only in the built-up areas. For this purpose, we will use the spatial data obtained from [Ordnance Survey](https://osdatahub.os.uk/downloads/open/BuiltUpAreas) (Download it manually and save it in the same folder of this project)
+
+```{r}
+builtup_bounds <- st_read("OS Open Built Up Areas.gpkg",
+                          layer = "os_open_built_up_areas")
+```
+
+```{r}
+clean_data <- saba |>
+  semi_join(Practices[builtup_bounds,] |>
+              filter(code %in% ids_to_include),
+            by = c("org_id"="code"))
+```
+
+Calculating the overall trend in Leeds built-up areas
+
+```{r}
+data_overall <- clean_data |>
+  summarise(across(numerator:denominator,sum),
+            .by = c(date, month)) |> 
+  mutate(calc_value = numerator/denominator)
+```
+
+```{r}
+data_overall |> 
+  ggplot(aes(date,calc_value))+
+  geom_line(alpha = 0.3,
+            col = "dodgerblue3")+
+  geom_smooth(method = "lm",se = F,col = "dodgerblue4")+
+  theme_minimal()
+```
+
+Fitting a simple linear model
+
+```{r}
+lm(calc_value~month,data = data_overall) |> 
+  summary()
+```
+
+
+
+

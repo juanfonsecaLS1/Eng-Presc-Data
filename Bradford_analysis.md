@@ -249,6 +249,7 @@ A check of the distribution of the trends
 
 ``` r
 saba_processed |> 
+  filter(org_id %in% bradford_trends$code) |> 
   ggplot(aes(coef,fill = cut(coef,
                              breaks = 4*seq(-0.02,0.02,0.0005))))+
   geom_histogram(breaks =  4*seq(-0.02,0.02,0.0005))+
@@ -262,7 +263,8 @@ saba_processed |>
 ![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-13-1.png)
 
 ``` r
-saba_processed |> 
+saba_processed |>
+  filter(org_id %in% bradford_trends$code) |> 
   ggplot(aes(coef))+
   stat_ecdf(geom = "step")+
   theme_minimal()+
