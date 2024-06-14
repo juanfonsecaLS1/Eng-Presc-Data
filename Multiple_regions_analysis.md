@@ -61,6 +61,27 @@ builtup_bounds <- st_read("OS Open Built Up Areas.gpkg",
     Bounding box:  xmin: 65300 ymin: 10000 xmax: 655625 ymax: 1177650
     Projected CRS: OSGB36 / British National Grid
 
+### Identifying the largest built-up areas within each region
+
+``` r
+all_BA_selected <- do.call(bind_rows,
+                    lapply(CCG_boundaries$code,\(t_code){
+  
+  # Subsetting the biggest built-up NHS area
+  builtup_bounds[CCG_boundaries[CCG_boundaries$code==t_code,],] |>
+    slice_max(geometry_area_m) |>
+                        mutate(
+                          org_code  = t_code)}))
+```
+
+A quick check of the largest built-up areas within each NHS region
+
+``` r
+mapview::mapview(all_BA_selected)
+```
+
+![](Multiple_regions_analysis_files/figure-commonmark/unnamed-chunk-5-1.png)
+
 ## Running the analisys for all regions
 
 ``` r
@@ -144,4 +165,4 @@ all_data_names|>
 
     `geom_smooth()` using formula = 'y ~ x'
 
-![](Multiple_regions_analysis_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](Multiple_regions_analysis_files/figure-commonmark/unnamed-chunk-8-1.png)

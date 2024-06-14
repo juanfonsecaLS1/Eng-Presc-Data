@@ -30,6 +30,24 @@ builtup_bounds <- st_read("OS Open Built Up Areas.gpkg",
 ```
 
 
+### Identifying the largest built-up areas within each region
+
+```{r}
+all_BA_selected <- do.call(bind_rows,
+                    lapply(CCG_boundaries$code,\(t_code){
+  
+  # Subsetting the biggest built-up NHS area
+  builtup_bounds[CCG_boundaries[CCG_boundaries$code==t_code,],] |>
+    slice_max(geometry_area_m) |>
+                        mutate(
+                          org_code  = t_code)}))
+```
+
+A quick check of the largest built-up areas within each NHS region
+```{r}
+mapview::mapview(all_BA_selected)
+```
+
 ## Running the analisys for all regions
 
 ```{r}
