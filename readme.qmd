@@ -2,6 +2,9 @@
 title: "OpenPrescription EDA"
 author: "Juan Fonseca"
 format: gfm
+knitr:
+  opts_chunk:
+    fig.path: readme_figures/
 ---
 
 This work is based on data from [OpenPrescribing](https://openprescribing.net/).

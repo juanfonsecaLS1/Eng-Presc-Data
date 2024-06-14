@@ -53,7 +53,7 @@ CCG_boundaries <- geojsonsf::geojson_sf("https://openprescribing.net/api/1.0/org
 mapview::mapview(CCG_boundaries)
 ```
 
-![](readme_files/figure-commonmark/unnamed-chunk-3-1.png)
+![](readme_figures/unnamed-chunk-3-1.png)
 
 ## GP surgeries
 
@@ -94,7 +94,7 @@ Plotting the data
 mapview::mapview(Practices)
 ```
 
-![](readme_files/figure-commonmark/unnamed-chunk-7-1.png)
+![](readme_figures/unnamed-chunk-7-1.png)
 
 ## Getting data of respiratory `tag` for Leeds
 
@@ -229,7 +229,7 @@ saba |>
     Warning: Removed 1185 rows containing missing values or values outside the scale range
     (`geom_line()`).
 
-![](readme_files/figure-commonmark/unnamed-chunk-10-1.png)
+![](readme_figures/unnamed-chunk-10-1.png)
 
 #### Calculating an overall trend
 
@@ -341,7 +341,7 @@ data_overall |>
 
     `geom_smooth()` using formula = 'y ~ x'
 
-![](readme_files/figure-commonmark/unnamed-chunk-19-1.png)
+![](readme_figures/unnamed-chunk-19-1.png)
 
 Fitting a simple linear model
 
