@@ -372,3 +372,54 @@ lm(calc_value~month,data = data_overall) |>
     Residual standard error: 0.01075 on 59 degrees of freedom
     Multiple R-squared:  0.5599,    Adjusted R-squared:  0.5525 
     F-statistic: 75.07 on 1 and 59 DF,  p-value: 4.159e-12
+
+### CAZ boundaries analysis
+
+CAZ boundaries have been obtained from
+[here](https://spatialdata-cbmdc.hub.arcgis.com/datasets/9955cfe9c4104194bbb227821751aabf/explore?location=53.795554%2C-1.730762%2C11.20)
+
+Reading the CAZ boundaries
+
+``` r
+CAZ_bounds <- sf::st_read("Clean_Air_Zone_Boundary.geojson") |> sf::st_transform(27700)
+```
+
+    Reading layer `Clean_Air_Zone_Boundary' from data source 
+      `C:\Users\ts18jpf\OneDrive - University of Leeds\03_PhD\00_Misc_projects\Eng-Presc-Data\Clean_Air_Zone_Boundary.geojson' 
+      using driver `GeoJSON'
+    Simple feature collection with 1 feature and 3 fields
+    Geometry type: POLYGON
+    Dimension:     XY
+    Bounding box:  xmin: -1.818735 ymin: 53.7682 xmax: -1.717377 ymax: 53.84148
+    Geodetic CRS:  WGS 84
+
+``` r
+mapview::mapview(CAZ_bounds)
+```
+
+![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-26-1.png)
+
+Identifying practices within the CAZ
+
+``` r
+ids_within_CAZ <- bradford_trends[CAZ_bounds,] |> pull(code)
+```
+
+Adding a column to identify the ones within and outside the CAZ
+
+``` r
+bradford_trends$withinCAZ <- bradford_trends$code %in% ids_within_CAZ
+```
+
+Exploring the distribution of coefficients (avg change per month in
+SABA):
+
+``` r
+bradford_trends |> 
+  ggplot(aes(coef,col = withinCAZ))+
+  geom_vline(xintercept = 0,col = "goldenrod",alpha = 0.6,linewidth = 1)+
+  stat_ecdf()+
+  theme_minimal()
+```
+
+![](Bradford_analysis_files/figure-commonmark/unnamed-chunk-29-1.png)
