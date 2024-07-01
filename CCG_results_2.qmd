@@ -1,0 +1,160 @@
+```{r}
+#| include: false
+
+t_code <- "00Q"
+library(tidyverse)
+library(tmap)
+library(sf)
+load("all_data.RData")
+
+h2_name <-  CCG_boundaries$name[CCG_boundaries$code ==  t_code]
+my_BA <- all_BA_selected[all_BA_selected$org_code ==  t_code,]
+my_practices <- all_practices_raw[all_practices_raw$par_code ==  t_code, ]
+my_saba <- all_saba_raw[all_saba_raw$org_id %in% my_practices$code,]
+my_urban_practices <- my_practices[my_BA,]
+
+```
+
+
+
+## `r paste0(h2_name,"(",t_code,")")`
+
+### All practices
+
+```{r}
+#| echo: false
+tmap_mode("plot")
+basemap <- tmaptools::read_osm(my_practices)
+
+tm_shape(basemap)+
+  tm_rgb()+
+  tm_shape(my_BA)+
+  tm_fill("dodgerblue3",alpha = 0.3)+
+  tm_shape(my_practices)+
+  tm_dots()
+```
+
+
+### Trends
+
+#### Practices
+
+All practices in NHS region
+```{r}
+#| echo: false
+# Identifying the practices with more than 10 records
+ids_to_include <- my_saba |>
+  drop_na() |>
+  summarise(n_reports = n(), .by = org_id) |>
+  arrange(n_reports) |>
+  filter(n_reports > 10) |>
+  pull(org_id)
+      
+# Defining function for month delta
+diff_month <- function(start, end) {
+  length(seq(from = start, to = end, by = 'month')) - 1
+}
+
+# Doing all the month transforming for fitting a model
+start_month <- min(my_saba$date)
+end_month <- max(my_saba$date)
+
+my_saba$month <- vapply(my_saba$date, \(x) {
+  diff_month(start_month, x)
+}, numeric(1))
+
+ggplot(my_saba |> filter(org_id %in% ids_to_include),
+       aes(x = date,y = calc_value,group = org_id))+
+  geom_line(col = "dodgerblue2",alpha = 0.15)+
+  scale_y_continuous(labels = scales::label_percent())+
+  labs(y = "SABA Ratio")+
+  geom_smooth(method = "lm",se = F,
+              col = "dodgerblue4",
+              linewidth = 0.4,alpha = 0.3)+
+  theme_minimal()
+```
+
+Only practices in main urban area
+```{r}
+ggplot(my_saba |>
+         filter(org_id %in% ids_to_include,
+                org_id %in% my_urban_practices$code),
+       aes(x = date,y = calc_value,group = org_id))+
+  geom_line(col = "dodgerblue2",alpha = 0.15)+
+  scale_y_continuous(labels = scales::label_percent())+
+  labs(y = "SABA Ratio")+
+  geom_smooth(method = "lm",se = F,
+              col = "dodgerblue4",
+              linewidth = 0.4,alpha = 0.3)+
+  theme_minimal()
+```
+
+
+#### Overall
+All data
+```{r}
+#| echo: false
+my_saba |>
+         filter(org_id %in% ids_to_include,
+                org_id %in% my_urban_practices$code) |>
+        summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
+        mutate(calc_value = numerator / denominator, org_code  = t_code) |> 
+  ggplot(aes(x = date,y = calc_value))+
+  geom_line(col = "dodgerblue2",alpha = 0.3)+
+  scale_y_continuous(labels = scales::label_percent())+
+  labs(y = "SABA Ratio")+
+  geom_smooth(method = "lm",se = F,
+              col = "dodgerblue4",
+              linewidth = 0.4,alpha = 0.5)+
+  theme_minimal()
+```
+
+```{r}
+#| echo: false
+data.all <- my_saba |>
+         filter(org_id %in% ids_to_include,
+                org_id %in% my_urban_practices$code) |>
+        summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
+        mutate(calc_value = numerator / denominator, org_code  = t_code)
+
+lm.all <- lm(data.all$calc_value~data.all$month)
+confint(lm.all)
+```
+
+
+After Sept,2021
+
+```{r}
+#| echo: false
+my_saba |>
+         filter(org_id %in% ids_to_include,
+                org_id %in% my_urban_practices$code,
+                month>=29) |>
+        summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
+        mutate(calc_value = numerator / denominator, org_code  = t_code) |> 
+  ggplot(aes(x = date,y = calc_value))+
+  geom_line(col = "dodgerblue2",alpha = 0.3)+
+  scale_y_continuous(labels = scales::label_percent())+
+  scale_x_date(limits = c(start_month,end_month))+
+  labs(y = "SABA Ratio")+
+  geom_smooth(method = "lm",se = F,
+              col = "dodgerblue4",
+              linewidth = 0.4,alpha = 0.5)+
+  theme_minimal()
+```
+
+
+```{r}
+#| echo: false
+data.postCOVID <- my_saba |>
+         filter(org_id %in% ids_to_include,
+                org_id %in% my_urban_practices$code,
+                month>=29) |>
+        summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
+        mutate(calc_value = numerator / denominator, org_code  = t_code)
+
+lm.post <- lm(data.postCOVID$calc_value~data.postCOVID$month)
+confint(lm.post)
+```
+
+
