@@ -1,7 +1,6 @@
 ---
-title: "OpenPrescription EDA"
+title: "Bradford"
 author: "Juan Fonseca"
-format: gfm
 ---
 
 This work is based on data from [OpenPrescribing](https://openprescribing.net/).
@@ -283,14 +282,3 @@ bradford_trends |>
   stat_ecdf()+
   theme_minimal()
 ```
-
-
-
-
-
-
-
-
-
-
-

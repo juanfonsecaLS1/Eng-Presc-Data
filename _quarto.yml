@@ -1,0 +1,29 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!readme.qmd"
+    - "!*.md"
+website:
+  title: "Exploring the OpenPrescribing Dataset"
+  sidebar:
+    style: "docked"
+    search: true
+    tools:
+      - icon: github
+        menu:
+          - text: Source Code
+            href:  https://github.com/juanfonsecaLS1/Eng-Presc-Data
+    contents:
+      - href: index.qmd
+        text: Home
+      - href: Bradford_analysis.qmd
+        text: Bradford
+      - href: Multiple_regions_analysis.qmd
+        text: Multiple Regions
+      - about.qmd
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

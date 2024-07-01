@@ -1,7 +1,6 @@
 ---
-title: "OpenPrescription EDA"
+title: "Multiple Regions"
 author: "Juan Fonseca"
-format: gfm
 ---
 
 Based on the main analysis
