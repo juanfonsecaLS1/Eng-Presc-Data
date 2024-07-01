@@ -48,6 +48,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-
-# Geographical data 
+# Geographical data
 *.gpkg
+/.quarto/
+
+# website output folder
+_site/
