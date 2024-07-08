@@ -4,111 +4,191 @@ author: "Juan Fonseca"
 format: html
 ---
 
-# This is a test
+This section allows you to explore the overall trend for multiple areas simultaneously.
+Average trends have been calculated for practices with all records within the main built-up 
+area.
 
-{{< include CCG_results_1.qmd >}}
-{{< include CCG_results_2.qmd >}}
-{{< include CCG_results_3.qmd >}}
-{{< include CCG_results_4.qmd >}}
-{{< include CCG_results_5.qmd >}}
-{{< include CCG_results_6.qmd >}}
-{{< include CCG_results_7.qmd >}}
-{{< include CCG_results_8.qmd >}}
-{{< include CCG_results_9.qmd >}}
-{{< include CCG_results_10.qmd >}}
-{{< include CCG_results_11.qmd >}}
-{{< include CCG_results_12.qmd >}}
-{{< include CCG_results_13.qmd >}}
-{{< include CCG_results_14.qmd >}}
-{{< include CCG_results_15.qmd >}}
-{{< include CCG_results_16.qmd >}}
-{{< include CCG_results_17.qmd >}}
-{{< include CCG_results_18.qmd >}}
-{{< include CCG_results_19.qmd >}}
-{{< include CCG_results_20.qmd >}}
-{{< include CCG_results_21.qmd >}}
-{{< include CCG_results_22.qmd >}}
-{{< include CCG_results_23.qmd >}}
-{{< include CCG_results_24.qmd >}}
-{{< include CCG_results_25.qmd >}}
-{{< include CCG_results_26.qmd >}}
-{{< include CCG_results_27.qmd >}}
-{{< include CCG_results_28.qmd >}}
-{{< include CCG_results_29.qmd >}}
-{{< include CCG_results_30.qmd >}}
-{{< include CCG_results_31.qmd >}}
-{{< include CCG_results_32.qmd >}}
-{{< include CCG_results_33.qmd >}}
-{{< include CCG_results_34.qmd >}}
-{{< include CCG_results_35.qmd >}}
-{{< include CCG_results_36.qmd >}}
-{{< include CCG_results_37.qmd >}}
-{{< include CCG_results_38.qmd >}}
-{{< include CCG_results_39.qmd >}}
-{{< include CCG_results_40.qmd >}}
-{{< include CCG_results_41.qmd >}}
-{{< include CCG_results_42.qmd >}}
-{{< include CCG_results_43.qmd >}}
-{{< include CCG_results_44.qmd >}}
-{{< include CCG_results_45.qmd >}}
-{{< include CCG_results_46.qmd >}}
-{{< include CCG_results_47.qmd >}}
-{{< include CCG_results_48.qmd >}}
-{{< include CCG_results_49.qmd >}}
-{{< include CCG_results_50.qmd >}}
-{{< include CCG_results_51.qmd >}}
-{{< include CCG_results_52.qmd >}}
-{{< include CCG_results_53.qmd >}}
-{{< include CCG_results_54.qmd >}}
-{{< include CCG_results_55.qmd >}}
-{{< include CCG_results_56.qmd >}}
-{{< include CCG_results_57.qmd >}}
-{{< include CCG_results_58.qmd >}}
-{{< include CCG_results_59.qmd >}}
-{{< include CCG_results_60.qmd >}}
-{{< include CCG_results_61.qmd >}}
-{{< include CCG_results_62.qmd >}}
-{{< include CCG_results_63.qmd >}}
-{{< include CCG_results_64.qmd >}}
-{{< include CCG_results_65.qmd >}}
-{{< include CCG_results_66.qmd >}}
-{{< include CCG_results_67.qmd >}}
-{{< include CCG_results_68.qmd >}}
-{{< include CCG_results_69.qmd >}}
-{{< include CCG_results_70.qmd >}}
-{{< include CCG_results_71.qmd >}}
-{{< include CCG_results_72.qmd >}}
-{{< include CCG_results_73.qmd >}}
-{{< include CCG_results_74.qmd >}}
-{{< include CCG_results_75.qmd >}}
-{{< include CCG_results_76.qmd >}}
-{{< include CCG_results_77.qmd >}}
-{{< include CCG_results_78.qmd >}}
-{{< include CCG_results_79.qmd >}}
-{{< include CCG_results_80.qmd >}}
-{{< include CCG_results_81.qmd >}}
-{{< include CCG_results_82.qmd >}}
-{{< include CCG_results_83.qmd >}}
-{{< include CCG_results_84.qmd >}}
-{{< include CCG_results_85.qmd >}}
-{{< include CCG_results_86.qmd >}}
-{{< include CCG_results_87.qmd >}}
-{{< include CCG_results_88.qmd >}}
-{{< include CCG_results_89.qmd >}}
-{{< include CCG_results_90.qmd >}}
-{{< include CCG_results_91.qmd >}}
-{{< include CCG_results_92.qmd >}}
-{{< include CCG_results_93.qmd >}}
-{{< include CCG_results_94.qmd >}}
-{{< include CCG_results_95.qmd >}}
-{{< include CCG_results_96.qmd >}}
-{{< include CCG_results_97.qmd >}}
-{{< include CCG_results_98.qmd >}}
-{{< include CCG_results_99.qmd >}}
-{{< include CCG_results_100.qmd >}}
-{{< include CCG_results_101.qmd >}}
-{{< include CCG_results_102.qmd >}}
-{{< include CCG_results_103.qmd >}}
-{{< include CCG_results_104.qmd >}}
-{{< include CCG_results_105.qmd >}}
-{{< include CCG_results_106.qmd >}}
+## Results by Built-up Areas with CAZ
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+
+caz_data <- read_csv(
+  "CAZ_summary.csv",
+  col_types = cols(
+    date = col_date(format = ""),
+    month = col_double(),
+    numerator = col_double(),
+    denominator = col_double(),
+    calc_value = col_double(),
+    name = col_character(),
+    type = col_character()
+  )
+)
+
+caz_lst <- read_csv("CAZ_list.csv",
+                    col_types = cols_only(Area = col_character(),
+                                          Type = col_character()))
+
+types_list <- caz_lst$Type |> unique()
+
+caz_trends <- caz_data |>
+  nest(data = date:calc_value) |> 
+  mutate(model = map(.x = data, \(.x) lm(calc_value~month,data = .x)),
+         model_postcovid = map(.x = data, \(.x) lm(calc_value~month,data = .x[.x$month>28,])),
+         trend = map_dbl(model, \(.x) coef(.x)[2]*100),
+         trend_postcovid = map_dbl(model_postcovid, \(.x) coef(.x)[2]*100)
+         ) |> 
+  select(-data,-model,-model_postcovid) |> 
+  mutate(across(trend:trend_postcovid,\(x) round(x,3)))
+  
+
+ojs_define(cazdata=caz_data)
+ojs_define(caztypes=types_list)
+```
+
+
+
+```{ojs}
+//| echo: false
+viewof caztype = Inputs.select(caztypes, {value: "CAZ D", label: "Type"})
+```
+
+```{ojs}
+//| echo: false
+cazfiltered = transpose(cazdata).filter(function(record) {
+return caztype.includes(record.type) ;
+})
+
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  y: {domain: [0,70],
+    grid: true,
+    label: "SABA ratio(%)",
+    transform: (f) => (f*100)
+  },
+  x: {
+  transform: (x) => d3.timeParse("%Y-%m-%d")(x),
+  interval: "month"
+  },
+  color: {legend: true},
+  marks: [
+    Plot.ruleY([0]),
+    Plot.lineY(cazfiltered,
+    {x: "date",
+    y: "calc_value",
+    stroke: "name",
+    marker: "dot",
+    strokeOpacity: 0.3}),
+    Plot.linearRegressionY(cazfiltered,
+    {x: "date",
+    y: "calc_value",
+    stroke: "name"})
+    ]
+})
+```
+
+
+Linar trends (Avg % Change per month) 
+
+```{r}
+#| echo: false
+library(DT)
+datatable(caz_trends)
+```
+
+## Trends in each NHS region
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+rdata <- readr::read_csv("all_ccg_summarised.csv",
+                         col_types = readr::cols(
+  date = readr::col_date(format = ""),
+  month = readr::col_double(),
+  numerator = readr::col_double(),
+  denominator = readr::col_double(),
+  calc_value = readr::col_double(),
+  org_code = readr::col_character(),
+  name = readr::col_character()
+))
+
+lstNames <- rdata |> dplyr::arrange(name) |> dplyr::pull(name) |> unique()
+
+ojs_define(lstNames = lstNames)
+ojs_define(mydata = rdata)
+```
+
+
+Select the start month to calculate the linear trend
+
+```{ojs}
+//| echo: false
+viewof month_min = Inputs.range(
+  [0, 60],
+  {value: 28, step: 1, label: "Start month:"}
+)
+```
+
+Select the NHS regions of interest (max 6):
+
+```{ojs}
+//| echo: false
+viewof names = Inputs.select(lstNames, {multiple: 6, label: "NHS Regions",value: ["NHS BRADFORD DISTRICT AND CRAVEN","NHS LIVERPOOL"]})
+```
+
+```{ojs}
+//| echo: false
+rfiltered = transpose(mydata).filter(function(record) {
+return month_min < record.month && names.includes(record.name) ;
+})
+```
+
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  y: {domain: [0,70],
+    grid: true,
+    label: "SABA ratio(%)",
+    transform: (f) => (f*100)
+  },
+  x: {
+  transform: (x) => d3.timeParse("%Y-%m-%d")(x),
+  interval: "month"
+  },
+  color: {legend: true},
+  marks: [
+    Plot.ruleY([0]),
+    Plot.lineY(transpose(mydata),
+    {x: "date",
+    y: "calc_value",
+    stroke: "#aaa7ad",
+    z: "name",
+    strokeOpacity: 0.2}),
+    Plot.lineY(rfiltered,
+    {x: "date",
+    y: "calc_value",
+    stroke: "name",
+    marker: "dot",
+    strokeOpacity: 0.6}),
+    Plot.linearRegressionY(rfiltered,
+    {x: "date",
+    y: "calc_value",
+    stroke: "name"})
+    ]
+})   
+```
+
+
+

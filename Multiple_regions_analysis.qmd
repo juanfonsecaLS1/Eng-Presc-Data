@@ -66,7 +66,7 @@ st_write(all_BA_selected,"selected_BuiltAreas.gpkg",delete_dsn = T)
 all_BA_selected <- st_read("selected_BuiltAreas.gpkg")
 ```
 
-A qquick check of the largest built-up areas within each NHS region
+A quick check of the largest built-up areas within each NHS region
 ```{r}
 tmap_mode("view")
 tm_shape(CCG_boundaries)+
@@ -135,9 +135,108 @@ save(CCG_boundaries,
 load("all_data.RData")
 ```
 
+### Overall trends
+
+Identifying the practices without all records
+
+```{r}
+count_records <- all_saba_raw |>
+        drop_na() |>
+        summarise(n_reports = n(), .by = org_id)
+```
+
+
+Plotting the distribution of records per practice
+
+```{r}
+ggplot(count_records,
+       aes(n_reports))+
+  stat_ecdf()+
+  scale_y_continuous(labels = scales::label_percent())
+```
+
+Extracting the IDs of the practices with all records
+
+```{r}
+practices_complete <- count_records |>
+  filter(n_reports == max(n_reports)) |> 
+  pull(org_id)
+```
+
+
+Calculating overall trend using the prectices with complete records
+
+```{r}
+overall_saba <- all_saba_raw |>
+  filter(org_id %in% practices_complete) |> 
+  summarise(across(numerator:denominator, sum), .by = c(date)) |>
+        mutate(calc_value = numerator / denominator)
+
+
+# Defining function for month delta
+diff_month <- function(start, end) {
+  length(seq(from = start, to = end, by = 'month')) - 1
+}
+
+# Doing all the month transforming for fitting a model
+start_month <- min(overall_saba$date)
+overall_saba$month <- vapply(overall_saba$date, \(x) {
+  diff_month(start_month, x)
+}, numeric(1))
+```
+
+Averaged time series
+```{r}
+overall_saba |> 
+ggplot(aes(x = date, y = calc_value))+
+  geom_line(col = "dodgerblue2", alpha = 0.3)+
+  # geom_smooth(method = "lm",se = F,
+  #             col = "dodgerblue4",
+  #             linewidth = 1)+
+  scale_y_continuous(labels = scales::label_percent())+
+  theme_minimal()
+```
+
+Average linear trend
+```{r}
+overall_saba |> 
+ggplot(aes(x = date, y = calc_value))+
+  geom_line(col = "dodgerblue2", alpha = 0.3)+
+  geom_smooth(method = "lm",se = F,
+              col = "dodgerblue4",
+              linewidth = 1)+
+  scale_y_continuous(labels = scales::label_percent())+
+  theme_minimal()
+```
+
+#### Time series analysis using `timetk`
+
+
+```{r}
+library(timetk)
+anomalised_saba <- overall_saba |> anomalize(date,calc_value)
+```
+
+Decomposing the time series
+```{r}
+anomalised_saba |>
+plot_anomalies_decomp(
+.date_var = date,
+.interactive = FALSE
+)
+```
+
+Showing anomalies
+```{r}
+anomalised_saba |>
+  plot_anomalies(date,
+                 .interactive = F)
+```
+
+### Comparing NHS regions
+
 Summarising trends for the major built-up area in each region
   
-
 ```{r}
 all_ccg_summarised <- do.call(
   bind_rows,
@@ -152,13 +251,13 @@ all_ccg_summarised <- do.call(
       
       # Extracting the SABA results for that area
       saba <- all_saba_raw[all_saba_raw$org_id %in% Practices$code, ]
-      # Identifying the practices with more than 10 records
-      ids_to_include <- saba |>
-        drop_na() |>
-        summarise(n_reports = n(), .by = org_id) |>
-        arrange(n_reports) |>
-        filter(n_reports > 10) |>
-        pull(org_id)
+      # # Identifying the practices with more than 10 records
+      # ids_to_include <- saba |>
+      #   drop_na() |>
+      #   summarise(n_reports = n(), .by = org_id) |>
+      #   arrange(n_reports) |>
+      #   filter(n_reports > 10) |>
+      #   pull(org_id)
       
       # Defining function for month delta
       diff_month <- function(start, end) {
@@ -178,7 +277,7 @@ all_ccg_summarised <- do.call(
       # (no outliers nor practices out of main urban area)
       
       clean_data <- saba |>
-        filter(org_id %in% ids_to_include, org_id %in% city_practices)
+        filter(org_id %in% practices_complete, org_id %in% city_practices)
       
       clean_data |>
         summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
@@ -186,11 +285,9 @@ all_ccg_summarised <- do.call(
     }
   )
 )
-  
 ```
 
 Joining with the CCG table to obtain the names
-
 ```{r}
 all_data_names <- all_ccg_summarised |>
   left_join(CCG_boundaries |>
@@ -198,18 +295,91 @@ all_data_names <- all_ccg_summarised |>
               select(name,code),by = c("org_code"="code"))
 ```
 
+```{r}
+#| include: false
+#| eval: false
+#Saving the data for interactive plots
+write_csv(all_data_names,file = "all_ccg_summarised.csv")
+```
 
-A quick visualisation of the trends of Bradford and Liverpool
-
+A quick visualisation of the linear trends of Bradford and Liverpool
 ```{r}
 all_data_names|> 
   ggplot(aes(x = date,y = calc_value,group = org_code))+
   geom_line(col = "dodgerblue2",alpha = 0.3)+
   geom_smooth(data =all_data_names |> 
                 filter(org_code %in% c("36J","99A")),
-              aes(col = name),
-              method = "lm",se = F,
+              aes(col = name,fill = name),
+              method = "lm",
+              # se = F,
               # col = "dodgerblue4",
               linewidth = 1)+
-  theme_minimal()
+  theme_minimal()+
+  theme(legend.position = "bottom")
 ```
+
+### Processing Built-up areas with CAZ
+
+```{r}
+CAZ_lst <- read_csv("CAZ_list.csv",col_types = cols_only(
+  Area = col_character(),
+  Type = col_character()
+))
+```
+
+Sub-setting the built-up areas with CAZ zones
+
+```{r}
+CAZ_BA <- builtup_bounds |> semi_join(CAZ_lst,by=c("gsscode"="Area"))
+```
+
+
+```{r}
+all_caz_summarised <- do.call(
+  bind_rows,
+  lapply(
+    CAZ_BA$gsscode,
+    \(t_code){
+      # Subsetting the biggest built-up NHS area
+      main_BA <- CAZ_BA[CAZ_BA$gsscode == t_code, ]
+      
+      # Extracting the practices for that NHS area
+      Practices <- all_practices_raw[main_BA, ]
+      
+      # Extracting the SABA results for that area
+      saba <- all_saba_raw[all_saba_raw$org_id %in% Practices$code, ]
+      
+      # Defining function for month delta
+      diff_month <- function(start, end) {
+        length(seq(from = start, to = end, by = 'month')) - 1
+      }
+      
+      # Doing all the month transforming for fitting a model
+      start_month <- min(saba$date)
+      saba$month <- vapply(saba$date, \(x) {
+        diff_month(start_month, x)
+      }, numeric(1))
+      
+      
+      # Producing a clean SABA dataset
+      # (no outliers nor practices out of main urban area)
+      
+      clean_data <- saba |>
+        filter(org_id %in% practices_complete)
+      
+      clean_data |>
+        summarise(across(numerator:denominator, sum), .by = c(date, month)) |>
+        mutate(calc_value = numerator / denominator,
+               name  = CAZ_BA$name1_text[CAZ_BA$gsscode == t_code],
+               type = CAZ_lst$Type[CAZ_lst$Area==t_code])
+    }
+  )
+)
+```
+
+```{r}
+#| include: false
+write_csv(all_caz_summarised, file = "CAZ_summary.csv")
+```
+
+
