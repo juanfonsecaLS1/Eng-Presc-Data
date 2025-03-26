@@ -54,3 +54,7 @@ rsconnect/
 
 # website output folder
 _site/
+
+# practice data
+gp_patients/
+gp_patients/*
