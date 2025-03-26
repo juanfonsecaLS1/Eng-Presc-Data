@@ -1,0 +1,64 @@
+---
+title: "GP Practices Classification"
+editor: source
+---
+
+
+```{r}
+library(sf)
+library(tidyverse)
+library(tmap)
+```
+
+
+```{r}
+CAZ_boundaries <- lapply(
+  list.files(path = "CAZ_geojson/",full.names = T),
+  \(x) {st_read(x) |> mutate(file =basename(x))}) |> bind_rows() |> 
+  st_transform(27700) |> 
+  st_make_valid()
+
+CAZ_buffer <-  CAZ_boundaries |> 
+  st_buffer(10e3)
+```
+
+```{r}
+tmap_mode("view")
+
+tm_shape(CAZ_buffer)+
+  tm_fill("dodgerblue",alpha = 0.5)+
+tm_shape(CAZ_boundaries)+
+  tm_fill("darkblue")
+  
+```
+
+
+
+```{r}
+load("all_data.RData")
+```
+
+
+```{r}
+pract_within <-  all_practices_raw[CAZ_boundaries,]
+
+pract_buffer <- all_practices_raw[CAZ_buffer,][CAZ_boundaries, ,op = st_disjoint]
+
+pract_buffer$CAZ <- st_nearest_feature(pract_buffer,CAZ_boundaries)
+pract_buffer$dist_CAZ <- st_distance(pract_buffer,
+                                     CAZ_boundaries[pract_buffer$CAZ,],
+                                     by_element = T)
+```
+
+
+```{r}
+tm_shape(CAZ_buffer)+
+  tm_fill("dodgerblue",alpha = 0.5)+
+tm_shape(CAZ_boundaries)+
+  tm_fill("darkblue")+
+  tm_shape(pract_buffer)+
+  tm_dots("dist_CAZ")
+  
+  
+```
+

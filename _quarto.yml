@@ -21,6 +21,8 @@ website:
             text: Extracting data
           - href: detailed_results.qmd
             text: Results
+      - href: Practices_analysis.qmd
+        text: GP Practices location analysis
       - about.qmd
 format:
   html:

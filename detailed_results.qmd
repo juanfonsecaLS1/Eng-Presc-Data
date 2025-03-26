@@ -96,7 +96,7 @@ Plot.plot({
 ```
 
 
-Linar trends (Avg % Change per month) 
+Linear trends (Avg % Change per month) 
 
 ```{r}
 #| echo: false

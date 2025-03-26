@@ -1,0 +1,69 @@
+---
+title: "Untitled"
+format: docx
+editor: source
+---
+
+```{r,include=FALSE}
+library(kableExtra)
+library(tidyverse)
+
+# Loading indicator data
+all_data <- load("all_data.RData")
+```
+
+OpenPrescribing provides NHS prescribing data aggregated by month, and some off-the-shelf indicators. As a proxy for asthma prevalence, we have extracted Short Acting Beta Agonist (SABA) inhalers. @tbl-fields lists the fields reported for each indicator and their availability.
+
+```{r}
+#| echo: false
+#| label: tbl-fields
+#| tbl-cap: OpenPrescribing indicators and availability by data field.
+
+count_NAs <- function(df) {
+    sapply(df, function(x) sum(is.na(x)))
+  }
+
+df <- all_saba_raw |> 
+  drop_na(denominator) 
+
+a <- (1-count_NAs(df)/nrow(df)) |>
+    enframe(name = "field",
+            value = "available") |>
+    head(24) |> 
+    mutate(available = sprintf("%.0f%%", available * 100))
+
+a |> kable()
+```
+
+Similarly, data for a specific drugs prescribed in any medical practice contain the following data fields:
+
+```{r}
+#| echo: false
+#| label: tbl-fields-presc
+#| tbl-cap: OpenPrescribing indicators and availability by data field.
+
+drug_data <- read_csv("spending-by-practice-0212000AA.csv")
+
+df <- drug_data
+
+a <- (1-count_NAs(df)/nrow(df)) |>
+    enframe(name = "field",
+            value = "available") |>
+    head(24) |> 
+    mutate(available = sprintf("%.0f%%", available * 100))
+
+a |> kable()
+
+```
+
+Prescription data is available at the following aggregation levels from January 2020 to December 2024:
+
+1.  Regional teams
+
+2.  ICB
+
+3.  Sub-ICB
+
+4.  PCN
+
+5.  GP Practice

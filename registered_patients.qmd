@@ -1,0 +1,75 @@
+---
+title: "Registered Patient Data"
+editor: source
+---
+
+```{r}
+library(rvest)
+library(tidyverse)
+```
+
+From the NHS we can extract total number of patients registered after each month.
+This code downloads all monthly reports programmatically and extracts the zip files
+
+```{r}
+#| eval: false
+
+base_u <- "https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice/"
+
+my_grid <- expand.grid(month = tolower(month.name),
+             year = 2020:2024
+             ) 
+my_grid$u <- paste(my_grid$month,my_grid$year,sep = "-")
+
+# i <-  my_grid$u[1]
+folder_path <- "gp_patients"
+
+dir.create(path = folder_path,showWarnings = F)
+
+cur_files <- tools::file_path_sans_ext(list.files(folder_path))
+
+my_grid <- my_grid[!(my_grid$u %in% cur_files),]
+
+for (i in my_grid$u){
+  print(paste0(base_u,i)) 
+  w <-read_html(paste0(base_u,i))
+  
+  links <- w  |> html_nodes("a")  |> html_attr("href")
+  
+  my_link <- links[grep(links,
+                        pattern = "gp-reg-pat-prac-all")]
+
+  download.file(url = my_link,destfile = paste0(folder_path,"/",i,".",tools::file_ext(my_link)),mode = "wb")
+  
+  Sys.sleep(rnorm(1,mean = 5))
+}
+
+# List all ZIP files in the folder
+zip_files <- list.files(path = folder_path, pattern = "\\.zip$", full.names = TRUE)
+
+# Extract each ZIP file
+lapply(zip_files, function(zip_file) {
+  # Create a temporary directory for extraction
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
+  
+  # Extract the ZIP file into the temporary directory
+  unzip(zip_file, exdir = temp_dir)
+  
+  # List extracted files
+  extracted_files <- list.files(path = temp_dir, full.names = TRUE)
+  
+  # Move and rename each extracted file to the original folder
+  lapply(extracted_files, function(file) {
+    file_extension <- tools::file_ext(file)
+    new_name <- file.path(folder_path, paste0(tools::file_path_sans_ext(basename(zip_file)), ".", file_extension))
+    file.rename(file, new_name)
+  })
+  
+    
+  # Remove the temporary directory
+  unlink(temp_dir, recursive = TRUE)
+})
+
+```
+
