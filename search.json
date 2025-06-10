@@ -25,7 +25,7 @@
     "href": "detailed_Bradford.html",
     "title": "Prescription Data Bradford",
     "section": "",
-    "text": "Reading layer `practices_CAZ' from data source \n  `C:\\Users\\ts18jpf\\OneDrive - University of Leeds\\03_PhD\\00_Misc_projects\\Eng-Presc-Data\\practices_CAZ.gpkg' \n  using driver `GPKG'\nSimple feature collection with 11864 features and 10 fields (with 4 geometries empty)\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 90774 ymin: 10282 xmax: 655043 ymax: 653236\nProjected CRS: OSGB36 / British National Grid\n\n\nReading layer `CAZ_boundaries' from data source \n  `C:\\Users\\ts18jpf\\OneDrive - University of Leeds\\03_PhD\\00_Misc_projects\\Eng-Presc-Data\\CAZ_boundaries.gpkg' \n  using driver `GPKG'\nSimple feature collection with 7 features and 1 field\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 356346.4 ymin: 99474.13 xmax: 465151.9 ymax: 565398\nProjected CRS: OSGB36 / British National Grid",
+    "text": "This analysis uses the following datasets:",
     "crumbs": [
       "Bradford detailed"
     ]
@@ -35,27 +35,17 @@
     "href": "detailed_Bradford.html#gp-practices-in-bradford",
     "title": "Prescription Data Bradford",
     "section": "GP Practices in Bradford",
-    "text": "GP Practices in Bradford",
+    "text": "GP Practices in Bradford\nLocation and median number of registered patients by practice:",
     "crumbs": [
       "Bradford detailed"
     ]
   },
   {
-    "objectID": "detailed_Bradford.html#trends-by-location",
-    "href": "detailed_Bradford.html#trends-by-location",
+    "objectID": "detailed_Bradford.html#trends",
+    "href": "detailed_Bradford.html#trends",
     "title": "Prescription Data Bradford",
-    "section": "Trends by location",
-    "text": "Trends by location\n\nviewof caztype = Inputs.select(indicatortypes, {value: \"Antidepressant drugs\", label: \"Prescription Type\"})\n\n\n\n\n\n\n\ncazfiltered = transpose(cazdata).filter(function(record) {\nreturn 2021 &lt; record.year && caztype.includes(record.desc) ;\n})\n\ncazfiltered_full = transpose(cazdata).filter(function(record) {\nreturn caztype.includes(record.desc) ;\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot.plot({\n  y: {\n    grid: true,\n    label: \"items/patient\",\n    transform: (f) =&gt; (f*1)\n  },\n  x: {\n  transform: (x) =&gt; d3.timeParse(\"%Y-%m-%d\")(x),\n  interval: \"month\"\n  },\n  color: {legend: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.lineY(cazfiltered_full,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"#aaa7ad\",\n    z: \"location_class\",\n    strokeOpacity: 0.2}),\n    Plot.lineY(cazfiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"location_class\",\n    marker: \"dot\",\n    strokeOpacity: 0.3}),\n    Plot.linearRegressionY(cazfiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"location_class\"})\n    ]\n})",
-    "crumbs": [
-      "Bradford detailed"
-    ]
-  },
-  {
-    "objectID": "detailed_Bradford.html#trend-by-practices",
-    "href": "detailed_Bradford.html#trend-by-practices",
-    "title": "Prescription Data Bradford",
-    "section": "Trend by practices",
-    "text": "Trend by practices\nSelect the NHS regions of interest (max 6):\n\nviewof names = Inputs.select(praclist, {multiple: 6, label: \"Practices\",value: [\"PARK GRANGE MEDICAL CENTRE\",\"THE CITY MEDICAL PRACTICE\"]})\n\n\n\n\n\n\n\ndatafiltered = transpose(pracdata).filter(function(record) {\nreturn 2021 &lt; record.year && caztype.includes(record.desc) && names.includes(record.row_name) ;\n})\n\ndatafiltered_fulltime = transpose(pracdata).filter(function(record) {\nreturn caztype.includes(record.desc) && names.includes(record.row_name) ;\n})\n\ndatafiltered_full = transpose(pracdata).filter(function(record) {\nreturn caztype.includes(record.desc) ;\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot.plot({\n  y: {\n    grid: true,\n    label: \"items/patient\",\n    transform: (f) =&gt; (f*1)\n  },\n  x: {\n  transform: (x) =&gt; d3.timeParse(\"%Y-%m-%d\")(x),\n  interval: \"month\"\n  },\n  color: {legend: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.lineY(datafiltered_full,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"#aaa7ad\",\n    z: \"row_name\",\n    strokeOpacity: 0.2}),\n    Plot.lineY(datafiltered_fulltime,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"row_name\",\n    marker: \"dot\",\n    strokeOpacity: 0.3}),\n    Plot.linearRegressionY(datafiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"row_name\"})\n    ]\n})",
+    "section": "Trends",
+    "text": "Trends\nTrends in the number of prescriptions per patient for each practice have been calculated for:\n\nAntidepressant drugs - BNF: 0403\nHypertension and heart failure - BNF: 0205\nCorticosteroids (respiratory) - BNF: 0302\n\nSelect a type of prescription:\n\nviewof caztype = Inputs.select(indicatortypes, {value: \"Antidepressant drugs\", label: \"Prescription Type\"})\n\n\n\n\n\n\n\nTrends by CAZ location\nOverall trend for all practices in each area type\n\ncazfiltered = transpose(cazdata).filter(function(record) {\nreturn 2021 &lt; record.year && caztype.includes(record.desc) ;\n})\n\ncazfiltered_full = transpose(cazdata).filter(function(record) {\nreturn caztype.includes(record.desc) ;\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot.plot({\n  y: {\n    grid: true,\n    label: \"items/patient\",\n    transform: (f) =&gt; (f*1)\n  },\n  x: {\n  transform: (x) =&gt; d3.timeParse(\"%Y-%m-%d\")(x),\n  interval: \"month\"\n  },\n  color: {legend: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.lineY(cazfiltered_full,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"#aaa7ad\",\n    z: \"location_class\",\n    strokeOpacity: 0.2}),\n    Plot.lineY(cazfiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"location_class\",\n    marker: \"dot\",\n    strokeOpacity: 0.3}),\n    Plot.linearRegressionY(cazfiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"location_class\"})\n    ]\n})\n\n\n\n\n\n\n\n\nTrend by practices\nTrend for specific practices, select the practice(s) of interest:\n\nviewof names = Inputs.select(praclist, {multiple: 6, label: \"Practices\",value: [\"PARK GRANGE MEDICAL CENTRE\",\"THE CITY MEDICAL PRACTICE\"]})\n\n\n\n\n\n\n\ndatafiltered = transpose(pracdata).filter(function(record) {\nreturn 2021 &lt; record.year && caztype.includes(record.desc) && names.includes(record.row_name) ;\n})\n\ndatafiltered_fulltime = transpose(pracdata).filter(function(record) {\nreturn caztype.includes(record.desc) && names.includes(record.row_name) ;\n})\n\ndatafiltered_full = transpose(pracdata).filter(function(record) {\nreturn caztype.includes(record.desc) ;\n})\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlot.plot({\n  y: {\n    grid: true,\n    label: \"items/patient\",\n    transform: (f) =&gt; (f*1)\n  },\n  x: {\n  transform: (x) =&gt; d3.timeParse(\"%Y-%m-%d\")(x),\n  interval: \"month\"\n  },\n  color: {legend: true},\n  marks: [\n    Plot.ruleY([0]),\n    Plot.lineY(datafiltered_full,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"#aaa7ad\",\n    z: \"row_name\",\n    strokeOpacity: 0.2}),\n    Plot.lineY(datafiltered_fulltime,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"row_name\",\n    marker: \"dot\",\n    strokeOpacity: 0.3}),\n    Plot.linearRegressionY(datafiltered,\n    {x: \"date\",\n    y: \"indicator\",\n    stroke: \"row_name\"})\n    ]\n})",
     "crumbs": [
       "Bradford detailed"
     ]
