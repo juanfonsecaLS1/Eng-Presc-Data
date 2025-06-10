@@ -6,6 +6,8 @@ editor: source
 ```{r}
 library(rvest)
 library(tidyverse)
+library(sf)
+library(tmap)
 ```
 
 From the NHS we can extract total number of patients registered after each month.
@@ -72,4 +74,69 @@ lapply(zip_files, function(zip_file) {
 })
 
 ```
+
+Loading the data and consolidating it
+
+
+```{r}
+#| warning: false
+#| message: false
+
+all_data <- lapply(list.files(path = "gp_patients",pattern = "\\.csv$",full.names = T),
+       \(x){
+         read_csv(x) |> 
+           mutate(month = str_extract(basename(x),"[a-zA-Z]+(?=-)"),
+                  year = str_extract(basename(x),"\\d{4}"))
+       })
+
+
+common_names <- reduce(lapply(all_data,names),intersect)
+
+all_data_df <- do.call(rbind,
+        lapply(all_data,
+       \(x){
+         x[,common_names]
+})) |> 
+  mutate(year = as.integer(year))
+
+```
+
+
+```{r}
+write_csv(all_data_df,file = "practice_patients.csv")
+```
+
+
+A quick look at median size of each practice
+
+```{r}
+all_data_df |> 
+  summarise(across(NUMBER_OF_PATIENTS,\(x) median(x,na.rm = T)),.by = CODE) |>
+  ggplot(aes(NUMBER_OF_PATIENTS))+
+  geom_histogram(binwidth = 500)
+```
+
+
+The spatial distribution
+
+```{r}
+sf_practices <- st_read("practices_CAZ.gpkg")
+
+sf_practices_size <- sf_practices |>
+  left_join(all_data_df |> 
+  summarise(across(NUMBER_OF_PATIENTS,\(x) median(x,na.rm = T)),.by = CODE),
+  by = c("code" = "CODE"))
+
+sf_practices_size |> 
+  filter(NUMBER_OF_PATIENTS<= quantile(NUMBER_OF_PATIENTS,0.9,na.rm = T)) |> 
+tm_shape()+
+  tm_symbols(fill = "NUMBER_OF_PATIENTS",
+          size = "NUMBER_OF_PATIENTS",
+          col = NA,
+          size.scale = tm_scale_continuous(values.scale = 0.5),
+          # fill_alpha = 0.4,
+          fill.scale = tm_scale_intervals(n = 5, values = "-tol.rainbow_wh_br"))
+
+```
+
 

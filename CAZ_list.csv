@@ -1,15 +1,15 @@
-CAZ,Area,Type
-Birmingham,E63010038,CAZ D
-Bristol,E63012168,CAZ D
-"Bath, Somerset",E63012364,CAZ C
-Bradford,E63007920,CAZ C
-Newcastle upon Tyne,E63007169,CAZ C
-Sheffield,E63008489,CAZ C
-Portsmouth,E63013748,CAZ B
-Basildon,E63011912,Speed limit
-"Farnborough, Hampshire",E63012582,Speed limit
-Coventry,E63010120,Capacity
-Derby,E63009183,Capacity
-Leeds,E63007883,Cleaner vehicles
-Nottingham,E63009088,Cleaner vehicles
-Southampton,E63013524,Cleaner vehicles
+CAZ,Area,Type,file,Start
+Basildon,E63011912,Speed limit,,
+BANES,E63012364,CAZ C,Bath.geoJSON,2021
+Birmingham,E63010038,CAZ D,birmingham.gpkg,2021
+Bradford,E63007920,CAZ C,Bradford.geoJSON,2022
+Bristol,E63012168,CAZ D,bristol.geojson,2022
+Coventry,E63010120,Capacity,,
+Derby,E63009183,Capacity,,
+"Farnborough, Hampshire",E63012582,Speed limit,,
+Leeds,E63007883,Cleaner vehicles,,
+Newcastle upon Tyne,E63007169,CAZ C,Newcastle.geoJSON,2023
+Nottingham,E63009088,Cleaner vehicles,,
+Portsmouth,E63013748,CAZ B,Portsmouth.geoJSON,2021
+Sheffield,E63008489,CAZ C,Sheffield.geojson,2023
+Southampton,E63013524,Cleaner vehicles,,

@@ -39,6 +39,7 @@ Similarly, data for a specific drugs prescribed in any medical practice contain 
 
 ```{r}
 #| echo: false
+#| eval: false
 #| label: tbl-fields-presc
 #| tbl-cap: OpenPrescribing indicators and availability by data field.
 

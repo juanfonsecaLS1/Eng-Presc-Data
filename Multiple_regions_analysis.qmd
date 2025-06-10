@@ -321,10 +321,7 @@ all_data_names|>
 ### Processing Built-up areas with CAZ
 
 ```{r}
-CAZ_lst <- read_csv("CAZ_list.csv",col_types = cols_only(
-  Area = col_character(),
-  Type = col_character()
-))
+CAZ_lst <- read_csv("CAZ_list.csv") |> select(Area, Type)
 ```
 
 Sub-setting the built-up areas with CAZ zones

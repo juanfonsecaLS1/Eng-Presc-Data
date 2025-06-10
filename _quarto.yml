@@ -5,6 +5,8 @@ project:
     - "!readme.qmd"
     - "!*.md"
     - "!template_results.qmd"
+execute: 
+  freeze: auto  # re-render only when source changes
 website:
   title: "Exploring the OpenPrescribing Dataset"
   sidebar:
@@ -15,14 +17,20 @@ website:
         text: Home
       - href: Bradford_analysis.qmd
         text: Bradford
+      - href: detailed_Bradford.qmd
+        text: Bradford detailed
       - section: Multiple regions
         contents: 
           - href: Multiple_regions_analysis.qmd
             text: Extracting data
           - href: detailed_results.qmd
             text: Results
-      - href: Practices_analysis.qmd
-        text: GP Practices location analysis
+      - section: GP Practices Analysis
+        contents: 
+          - href: Practices_analysis.qmd
+            text: GP Practices location analysis
+          - href: registered_patients.qmd
+            text: Registered patients
       - about.qmd
 format:
   html:

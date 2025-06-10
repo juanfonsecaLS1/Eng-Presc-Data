@@ -1,8 +1,12 @@
 ---
 title: "GP Practices Classification"
 editor: source
+execute: 
+  warning: false
+  error: false
 ---
 
+Packages
 
 ```{r}
 library(sf)
@@ -10,55 +14,80 @@ library(tidyverse)
 library(tmap)
 ```
 
+Loading the CAZ boundaries
+
 
 ```{r}
-CAZ_boundaries <- lapply(
-  list.files(path = "CAZ_geojson/",full.names = T),
-  \(x) {st_read(x) |> mutate(file =basename(x))}) |> bind_rows() |> 
-  st_transform(27700) |> 
-  st_make_valid()
+CAZ_boundaries <- st_read("CAZ_boundaries.gpkg")
+```
 
-CAZ_buffer <-  CAZ_boundaries |> 
-  st_buffer(10e3)
+We will produce two buffers for each CAZ: 1 km and 10 km.
+
+```{r}
+CAZ_buffer_1k <-  CAZ_boundaries |> 
+  st_buffer(1e3)
+CAZ_buffer_5k <-  CAZ_boundaries |> 
+  st_buffer(5e3)
 ```
 
 ```{r}
 tmap_mode("view")
 
-tm_shape(CAZ_buffer)+
-  tm_fill("dodgerblue",alpha = 0.5)+
+tm_shape(CAZ_buffer_5k)+
+  tm_fill("dodgerblue",alpha = 0.3)+
+  tm_shape(CAZ_buffer_1k)+
+  tm_fill("dodgerblue3",alpha = 0.3)+
 tm_shape(CAZ_boundaries)+
   tm_fill("darkblue")
   
 ```
 
-
+Loading all data from previous analysis
 
 ```{r}
 load("all_data.RData")
 ```
 
+Let's classify the CAZ based on their location. 
+
 
 ```{r}
-pract_within <-  all_practices_raw[CAZ_boundaries,]
+all_practices_raw$within_CAZ <- st_intersects(all_practices_raw,CAZ_boundaries) |> vapply(length,numeric(1)) > 0
+all_practices_raw$within_1km <- st_intersects(all_practices_raw,CAZ_buffer_1k) |> vapply(length,numeric(1)) > 0
+all_practices_raw$within_5km <- st_intersects(all_practices_raw,CAZ_buffer_5k) |> vapply(length,numeric(1)) > 0
 
-pract_buffer <- all_practices_raw[CAZ_buffer,][CAZ_boundaries, ,op = st_disjoint]
+all_practices_raw$location_class <- case_when(all_practices_raw$within_CAZ~"within_CAZ",
+                                              all_practices_raw$within_1km~"within_1km",
+                                              all_practices_raw$within_5km~"within_5km",
+                                              TRUE~"out_CAZ")
+                                              
+                                              
 
-pract_buffer$CAZ <- st_nearest_feature(pract_buffer,CAZ_boundaries)
-pract_buffer$dist_CAZ <- st_distance(pract_buffer,
-                                     CAZ_boundaries[pract_buffer$CAZ,],
-                                     by_element = T)
+
+all_practices_raw$CAZ_index <- st_intersects(all_practices_raw,CAZ_buffer_5k) |> vapply(first,integer(1))
+all_practices_raw$CAZ_name <- CAZ_buffer_5k$name[all_practices_raw$CAZ_index]
+```
+
+Visualising the results for the classification
+```{r}
+tmap_mode("plot")
+tm_shape(all_practices_raw)+
+  tm_dots("location_class")
+
+tm_shape(all_practices_raw)+
+  tm_dots("CAZ_name")
 ```
 
 
 ```{r}
-tm_shape(CAZ_buffer)+
-  tm_fill("dodgerblue",alpha = 0.5)+
-tm_shape(CAZ_boundaries)+
-  tm_fill("darkblue")+
-  tm_shape(pract_buffer)+
-  tm_dots("dist_CAZ")
-  
-  
+st_write(all_practices_raw,"practices_CAZ.gpkg",append = F)
+```
+
+
+Saving the results as a release of the repo
+```{r}
+#| eval: false
+
+system("gh release upload v0 practices_CAZ.gpkg --clobber")
 ```
 
